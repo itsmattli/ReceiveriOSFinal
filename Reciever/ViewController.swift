@@ -9,11 +9,28 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var textLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.displayLaunchDetails),
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            object: nil)
+        }
+    
+    @objc func displayLaunchDetails() {
+        let appDelegate =
+            UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.queryText != nil {
+            self.textLabel.text = appDelegate.queryText
+            self.textLabel.font = UIFont.italicSystemFont(ofSize: textLabel.font.pointSize)
+        }
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
